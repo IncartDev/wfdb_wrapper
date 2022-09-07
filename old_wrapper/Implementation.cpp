@@ -155,7 +155,7 @@ extern "C" __declspec( dllexport ) int Parse_Head(const CStringW &strECGFileName
     {
       stime.wHour = iHour;  stime.wMinute = iMin;  stime.wSecond = iSec;
     }
-    pInfoMap->SetTimeInfo(_T("Start"), COleDateTime(stime));	//  Äàòà ñúåìà
+    pInfoMap->SetTimeInfo(_T("Start"), COleDateTime(stime));	//  Ð”Ð°Ñ‚Ð° ÑÑŠÐµÐ¼Ð°
 
     //	open signal file
     int nsig = isigopen(Record, 0, 0);
@@ -228,13 +228,13 @@ extern "C" __declspec( dllexport ) BOOL Parse_DATA(const CStringW &strECGFileNam
 {
 //		if( pInfoMap->GetTimeInfo(_T("StartInf")).GetStatus() != COleDateTime::valid )
 //			pInfoMap->SetTimeInfo(_T("StartInf"), StartTime);
-//		pInfoMap->SetTimeInfo(_T("Start"),StartTime);	//  Äàòà ñúåìà
+//		pInfoMap->SetTimeInfo(_T("Start"),StartTime);	//  Ð”Ð°Ñ‚Ð° ÑÑŠÐµÐ¼Ð°
 //		pInfoMap->SetLongInfo(_T("TotPnt"),UnPack->TotPnt());
 
     pInfoMap->SetLongInfo("monTyp", 10);	
-    //	ðàíüøå áûë: defenchk.h: enum { DEV_TYPE_GENERATOR = 9 }; - ýòîò òèï ìîíèòîðà îòêðûâàåòñÿ
-    //	ëþáîé âåðñèåé ïðîãðàììû â ëþáîì ñëó÷àå
-  //  2011.10.21 ïî óêàçàíèþ ÒÂÌ è äîãîâîðó ñ ÏÀÁ ïðèñâîåí îòäåëüíûé òèï ïðèáîðà 10, íà êîòîðûé íóæíà ñâîÿ ñòðî÷êà â ôàéëå ëèöåíçèè
+    //	Ñ€Ð°Ð½ÑŒÑˆÐµ Ð±Ñ‹Ð»: defenchk.h: enum { DEV_TYPE_GENERATOR = 9 }; - ÑÑ‚Ð¾Ñ‚ Ñ‚Ð¸Ð¿ Ð¼Ð¾Ð½Ð¸Ñ‚Ð¾Ñ€Ð° Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ
+    //	Ð»ÑŽÐ±Ð¾Ð¹ Ð²ÐµÑ€ÑÐ¸ÐµÐ¹ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ Ð² Ð»ÑŽÐ±Ð¾Ð¼ ÑÐ»ÑƒÑ‡Ð°Ðµ
+  //  2011.10.21 Ð¿Ð¾ ÑƒÐºÐ°Ð·Ð°Ð½Ð¸ÑŽ Ð¢Ð’Ðœ Ð¸ Ð´Ð¾Ð³Ð¾Ð²Ð¾Ñ€Ñƒ Ñ ÐŸÐÐ‘ Ð¿Ñ€Ð¸ÑÐ²Ð¾ÐµÐ½ Ð¾Ñ‚Ð´ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ñ‚Ð¸Ð¿ Ð¿Ñ€Ð¸Ð±Ð¾Ñ€Ð° 10, Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð½ÑƒÐ¶Ð½Ð° ÑÐ²Ð¾Ñ ÑÑ‚Ñ€Ð¾Ñ‡ÐºÐ° Ð² Ñ„Ð°Ð¹Ð»Ðµ Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ð¸
 
     LONG freq = pInfoMap->GetLongInfo(_T("Freq"));
     LONG pnt = pInfoMap->GetLongInfo(_T("TotPnt"));

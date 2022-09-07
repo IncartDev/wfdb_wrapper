@@ -3,7 +3,14 @@ project(sharedLibsDemo)                 # create a project with the given name
 # https://gernotklingler.com/blog/creating-using-shared-libraries-different-compilers-different-operating-systems/
 
 
-add_library(cphysiofile SHARED cphysiofile.cpp)   # compile "shared.cpp" and create a SHARED library called "shared"
+add_library(cphysiofile SHARED 
+    wfdblib/annot.c
+    wfdblib/calib.c
+    wfdblib/signal.c
+    wfdblib/sortann.c
+    wfdblib/wfdbio.c
+    wfdblib/wfdbinit.c
+    cphysiofile.cpp)   # compile "shared.cpp" and create a SHARED library called "shared"
 
 add_executable(main main.cpp)           # compile "main.cpp" the the executable called "main"
 
@@ -24,3 +31,12 @@ target_include_directories(cphysiofile PUBLIC ${CMAKE_CURRENT_BINARY_DIR}) # <--
 # include_directories(${CMAKE_CURRENT_BINARY_DIR}) # <-- или вот так, для всей папки
 
 target_link_libraries(main cphysiofile)      # link our previously created shared library "shared" to the exectable "main"
+
+add_executable(read_ann 
+    wfdblib/annot.c
+    wfdblib/calib.c
+    wfdblib/signal.c
+    wfdblib/sortann.c
+    wfdblib/wfdbio.c
+    wfdblib/wfdbinit.c
+    read_ann.cpp)           # compile "main.cpp" the the executable called "main"
