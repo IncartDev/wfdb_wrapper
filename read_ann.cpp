@@ -1,5 +1,6 @@
-#include <cstring>
-#include <locale>
+// приложение читает разметку из файла формата физионет 
+// и выводит ее в стандартный вывод в текстовом формате (csv)
+
 #include <iostream>
 #include <cstring>
 
@@ -40,19 +41,21 @@ int main(int argc, char* argv[]) {
         return 1; // ошибка - неправильное кол-во аргументов
 
     wfdb_addtopath(filename);
-    WFDB_Anninfo OpenInfo;
-
     string extname = _extensionName(filename);
-    OpenInfo.name = const_cast<char*>(extname.c_str()); //&*str.begin() - другой способ получить char*
+    char* c_extname = const_cast<char*>(extname.c_str());
+    string pathname = _pathName(filename);
+    char* c_pathname = const_cast<char*>(pathname.c_str());
+    string recname = _recordName(filename);
+    char* c_recname = const_cast<char*>(recname.c_str());
+
+    WFDB_Anninfo OpenInfo;
+    OpenInfo.name = c_extname; //&*str.begin() - другой способ получить char*
     OpenInfo.stat = WFDB_READ;
 
-    string pathname = _pathName(filename);
-    string recname = _recordName(filename);
-
-    if (annopen(const_cast<char*>(recname.c_str()), &OpenInfo,1) != 0)
+    if (annopen(c_recname, &OpenInfo,1) != 0)
         return 1; // ошибка - не удалось открыть файл
 
-    double freq = (double)sampfreq(const_cast<char*>(recname.c_str()));
+    double freq = (double)sampfreq(c_recname);
     std::cout << "#freq:" << freq << std::endl;
 
     iannsettime(0); // rewind
