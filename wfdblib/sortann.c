@@ -170,7 +170,7 @@ char *ann;
     */
     /* By setting WFDBNOSORT, we ensure that wfdbquit won't invoke this program
     recursively if something goes wrong. */
-    _putenv("WFDBNOSORT=1");
+    putenv("WFDBNOSORT=1");
 
     if ((sps = sampfreq(record)) < 0.)
         (void)setsampfreq(sps = WFDB_DEFFREQ);
