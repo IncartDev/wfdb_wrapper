@@ -20,6 +20,15 @@ add_executable(read_samples
     wfdblib/wfdbinit.c
     read_samples.cpp)
 
+add_executable(read_header
+    wfdblib/annot.c
+    wfdblib/calib.c
+    wfdblib/signal.c
+    wfdblib/sortann.c
+    wfdblib/wfdbio.c
+    wfdblib/wfdbinit.c
+    read_header.cpp)
+
 # ВСЕ ЧТО НИЖЕ - ПРИМЕР ДИНАМИЧЕСКОЙ БИБЛИОТЕКИ ИЗ ПРЕДЫДУЩЕЙ ПОПЫТКИ
 # add_library(cphysiofile SHARED 
 #     wfdblib/annot.c
