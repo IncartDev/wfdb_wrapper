@@ -69,7 +69,10 @@ int main(int argc, char *argv[])
     // int nChannel = 0;
     //int nFirstPnt = 0;
     //int nPoints = INT32_MAX / 2;
-    const int c_nPadLengthSec = 60;
+
+    // const int c_nPadLengthSec = 0; // без дописывания в хвост
+    // const int c_nPadLengthSec = 60; // минута наращивалась в аналайзере
+    const int c_nPadLengthSec = 10; // 8-10 секунд наращивалось в матлабе - для микробокса
 
     // wfdbquiet(); // чтобы не выдавал сообщения об ошибках!
 
@@ -96,7 +99,7 @@ int main(int argc, char *argv[])
     double freq = (double)sampfreq(c_recname);
     long pnt = vsinfo.front().nsamp;
     vector<WFDB_Sample> vSmp(nsig);
-    int nPadLen = 0; //(int)(c_nPadLengthSec * freq);
+    int nPadLen = (int)(c_nPadLengthSec * freq);
 
     // vector<vector<int>> ppnt(nsig);
     // for (int ch = 0; ch < nsig; ch++)

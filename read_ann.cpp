@@ -2,6 +2,7 @@
 // и выводит ее в стандартный вывод в текстовом формате (csv)
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
 #include "wfdblib/wfdblib.h"
@@ -41,6 +42,17 @@ int main(int argc, char *argv[])
     else
         return 1; // ошибка - неправильное кол-во аргументов
     
+    // после создания ссылки ее нельзя привязать к другому объекту,
+    // поэтому привяжем через указатель
+    ostream* this_out = &cout;
+    ofstream outfile;
+    if (argc > 2)
+    {
+        outfile.open(argv[2], ios::out | ios::binary);
+        this_out = &outfile;
+    }
+    ostream &out = *this_out;
+
     wfdbquiet(); // чтобы не выдавал сообщения об ошибках!
 
     wfdb_addtopath(filename);
@@ -59,20 +71,23 @@ int main(int argc, char *argv[])
         return 1; // ошибка - не удалось открыть файл
 
     double freq = (double)sampfreq(c_recname);
-    std::cout << "#freq:" << freq << std::endl;
+    out << "#freq:" << freq << endl;
 
     iannsettime(0); // rewind
 
     WFDB_Annotation Annotation;
     while (getann(0, &Annotation) == 0)
     {
-        std::cout << Annotation.time;
+        out << Annotation.time;
         char *symbol = annstr(Annotation.anntyp);
-        std::cout << ' ' << symbol << ' ';
+        out << ' ' << symbol << ' ';
         if (Annotation.aux != 0)
-            std::cout << Annotation.aux;
-        std::cout << std::endl;
+            out << Annotation.aux;
+        out << endl;
     }
 
+    if (outfile.is_open())
+        outfile.close(); // все равно вызовется в декструкторе
+        
     return 0;
 }
