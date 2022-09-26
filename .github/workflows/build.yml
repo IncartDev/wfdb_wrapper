@@ -70,15 +70,15 @@ jobs:
         run: |
           mkdir -p ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           rm -rf ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
-          cp -r ./artifacts/wfdb-wrapper ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          cp -r ./artifacts/wfdb-wrapper/build/Release ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           
       - name: Windows - Add artifact to server
         shell: bash
         if: matrix.os == 'Windows'
         run: |
-          mkdir -p ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          mkdir ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           rm -rf ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
-          cp -r ./artifacts/wfdb-wrapper ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          cp -r ./artifacts/wfdb-wrapper/build/Release ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           
 
           
