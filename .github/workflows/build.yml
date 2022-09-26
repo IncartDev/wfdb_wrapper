@@ -9,6 +9,9 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  
+  WIN_SRV_PATH: "//incart.local/FS/GUEST/#KTAuto"
+  LIN_SRV_PATH: "/home/root2/#KTAuto"
 
 jobs:
   build:
@@ -51,9 +54,33 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: ctest -C ${{env.BUILD_TYPE}}
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: WFDB-Wrapper-${{ matrix.os }}
+          path: artifacts/wfdb-wrapper
+
+      - name: Linux - Add artifact to server
+        shell: bash
+        if: matrix.os == 'Linux'
+        run: |
+          mkdir -p ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          rm -rf ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          cp -r ./artifacts/wfdb-wrapper ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          
+      - name: Windows - Add artifact to server
+        shell: bash
+        if: matrix.os == 'Windows'
+        run: |
+          mkdir -p ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          rm -rf ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          cp -r ./artifacts/wfdb-wrapper ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          
       - uses: actions/upload-artifact@v3
         with:
           name: wfdb_wrapper-Artifact-${{ matrix.os }} # ! имя надо разливать по версиям из матрицы
           path: ${{github.workspace}}/build/Release # для теста пока просто положим исходники
           
           retention-days: 5
+          
+          
+      
