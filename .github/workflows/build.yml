@@ -76,7 +76,7 @@ jobs:
         shell: bash
         if: matrix.os == 'Windows'
         run: |
-          mkdir ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
+          mkdir -p ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           rm -rf ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           cp -r ./artifacts/wfdb-wrapper/build/Release ${{env.WIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           
