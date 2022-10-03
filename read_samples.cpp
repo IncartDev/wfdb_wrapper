@@ -1,52 +1,10 @@
 // приложение читает сигналы из файла формата физионет
 // и выводит их в стандартный вывод в бинарном формате
 
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <vector>
-
-#include "wfdblib/wfdblib.h"
-#include "wfdblib/wfdb.h"
-
-#define max(a, b) (((a) > (b)) ? (a) : (b))
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-
-using namespace std;
-
-std::string _recordName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('\\');
-    std::string filename = filepath.substr(ibeg + 1);
-    ibeg = filename.find_last_of('.');
-    string recname = filename.substr(0, ibeg);
-    return recname;
-}
-std::string _extensionName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('.');
-    std::string ext = filepath.substr(ibeg + 1);
-    return ext;
-}
-std::string _pathName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('.');
-    string pathname = filepath.substr(0, ibeg);
-    return pathname;
-}
-
-
-void log_arr(int* arr, int len)
-{
-    for (int i = 0; i < len; i++)
-        cout << arr[i] << " ";
-    cout << endl;
-}
+#include "def.h"
 
 int main(int argc, char *argv[])
 {
-
-    // char* filename = "I:\\code\\wfdb_wrapper\\data\\I22.dat";
     char *filename;
 
     if (argc > 1)
@@ -74,15 +32,18 @@ int main(int argc, char *argv[])
     // const int c_nPadLengthSec = 60; // минута наращивалась в аналайзере
     const int c_nPadLengthSec = 10; // 8-10 секунд наращивалось в матлабе - для микробокса
 
-    // wfdbquiet(); // чтобы не выдавал сообщения об ошибках!
+#ifndef _DEBUG
+    wfdbquiet(); // чтобы не выдавал сообщения об ошибках!
+#endif
 
-    //	Open file, check number of channels
     wfdb_addtopath(filename);
-    string extname = _extensionName(filename);
-    char *c_extname = const_cast<char *>(extname.c_str());
-    string pathname = _pathName(filename);
+
+    fs::path p_ = filename;
+    string extname = p_.extension().string(); // _extensionName(filename); //
+    char *c_extname = const_cast<char *>(extname.c_str() + 1);
+    string pathname = p_.replace_extension("").string(); // _pathName(filename); //
     char *c_pathname = const_cast<char *>(pathname.c_str());
-    string recname = _recordName(filename);
+    string recname = p_.stem().string();  // _recordName(filename); //
     char *c_recname = const_cast<char *>(recname.c_str());
 
     int nsig = isigopen(c_recname, 0, 0);
@@ -153,8 +114,8 @@ int main(int argc, char *argv[])
     }
 
     isigclose();
-    // wfdbquit();
-
+    wfdbquit();
+    
     if (outfile.is_open())
         outfile.close(); // все равно вызовется в декструкторе
 

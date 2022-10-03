@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
+set (CMAKE_CXX_STANDARD 17)
 project(wfdb_wrapper)                 # create a project with the given name
 # https://gernotklingler.com/blog/creating-using-shared-libraries-different-compilers-different-operating-systems/
 

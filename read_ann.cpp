@@ -1,40 +1,10 @@
 // приложение читает разметку из файла формата физионет
 // и выводит ее в стандартный вывод в текстовом формате (csv)
 
-#include <iostream>
-#include <fstream>
-#include <cstring>
-
-#include "wfdblib/wfdblib.h"
-#include "wfdblib/wfdb.h"
-
-using namespace std;
-
-std::string _recordName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('\\');
-    std::string filename = filepath.substr(ibeg + 1);
-    ibeg = filename.find_last_of('.');
-    string recname = filename.substr(0, ibeg);
-    return recname;
-}
-std::string _extensionName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('.');
-    std::string ext = filepath.substr(ibeg + 1);
-    return ext;
-}
-std::string _pathName(const std::string &filepath)
-{
-    size_t ibeg = filepath.find_last_of('.');
-    string pathname = filepath.substr(0, ibeg);
-    return pathname;
-}
+#include "def.h"
 
 int main(int argc, char *argv[])
 {
-
-    // char* filename = "I:\\code\\wfdb_wrapper\\data\\I22.atr";
     char *filename;
 
     if (argc > 1)
@@ -53,14 +23,18 @@ int main(int argc, char *argv[])
     }
     ostream &out = *this_out;
 
+#ifndef _DEBUG
     wfdbquiet(); // чтобы не выдавал сообщения об ошибках!
+#endif
 
     wfdb_addtopath(filename);
-    string extname = _extensionName(filename);
-    char *c_extname = const_cast<char *>(extname.c_str());
-    string pathname = _pathName(filename);
+
+    fs::path p_ = filename;
+    string extname = p_.extension().string(); // _extensionName(filename); //
+    char *c_extname = const_cast<char *>(extname.c_str() + 1);
+    string pathname = p_.replace_extension("").string(); // _pathName(filename); //
     char *c_pathname = const_cast<char *>(pathname.c_str());
-    string recname = _recordName(filename);
+    string recname = p_.stem().string();  // _recordName(filename); //
     char *c_recname = const_cast<char *>(recname.c_str());
 
     WFDB_Anninfo OpenInfo;
@@ -85,6 +59,8 @@ int main(int argc, char *argv[])
             out << Annotation.aux;
         out << endl;
     }
+
+    wfdbquit();
 
     if (outfile.is_open())
         outfile.close(); // все равно вызовется в декструкторе
