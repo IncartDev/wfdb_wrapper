@@ -57,12 +57,12 @@ jobs:
         
       - uses: actions/upload-artifact@v3
         with:
-          name: WFDB-Wrapper-${{ matrix.os }} # ! имя надо разливать по версиям из матрицы
+          name: WFDB-Wrapper-${{ matrix.os }}-${{ matrix.arch }} # ! имя надо разливать по версиям из матрицы
           path: ./ # для теста пока просто положим исходники
                     
       - uses: actions/download-artifact@v3
         with:
-          name: WFDB-Wrapper-${{ matrix.os }}
+          name: WFDB-Wrapper-${{ matrix.os }}-${{ matrix.arch }}
           path: artifacts/wfdb-wrapper
 
       - name: Linux X64 - Add artifact to server
