@@ -23,7 +23,7 @@ jobs:
     runs-on: [self-hosted, '${{ matrix.os }}', '${{ matrix.arch }}']
     strategy:
       matrix:
-        arch: [X64]
+        arch: [X64, ARM64]
         os: [Linux, Windows]
     steps:
     
