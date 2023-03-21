@@ -65,14 +65,14 @@ jobs:
           name: WFDB-Wrapper-${{ matrix.os }}
           path: artifacts/wfdb-wrapper
 
-      - name: Linux ARM64 - Add artifact to server
+      - name: Linux X64 - Add artifact to server
         shell: bash
-        if: ${{ matrix.os == 'Linux' && matrix.arch == 'ARM64' }}
+        if: ${{ matrix.os == 'Linux' && matrix.arch == 'X64' }}
         run: |
           rm -rf ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           cp -r ./artifacts/wfdb-wrapper/build/Release ${{env.LIN_SRV_PATH}}/for-build/${{ matrix.os }}/backend/wfdb_wrapper
           
-      - name: Linux X64 - Add artifact to server
+      - name: Linux ARM64 - Add artifact to server
         shell: bash
         if: ${{ matrix.os == 'Linux' && matrix.arch == 'ARM64' }}
         run: |
