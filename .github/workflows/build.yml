@@ -25,6 +25,9 @@ jobs:
       matrix:
         arch: [X64, ARM64]
         os: [Linux, Windows]
+        exclude:
+          - os: Windows
+            arch: ARM64
     steps:
     
       # - name: Add ssh keys
