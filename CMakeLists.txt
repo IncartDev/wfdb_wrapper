@@ -30,6 +30,8 @@ add_executable(read_header
     wfdblib/wfdbinit.c
     read_header.cpp)
 
+install(TARGETS read_ann read_samples read_header DESTINATION bin)
+
 # ВСЕ ЧТО НИЖЕ - ПРИМЕР ДИНАМИЧЕСКОЙ БИБЛИОТЕКИ ИЗ ПРЕДЫДУЩЕЙ ПОПЫТКИ
 # add_library(cphysiofile SHARED 
 #     wfdblib/annot.c
